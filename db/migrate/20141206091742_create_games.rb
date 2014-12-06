@@ -5,7 +5,7 @@ class CreateGames < ActiveRecord::Migration
       t.date :game_date
       t.string :opponent
       t.string :score
-      t.time :minutes
+      t.string :minutes
       t.integer :field_goals_made
       t.integer :field_goals_attempted
       t.decimal :field_goal_percentage, precision: 4, scale: 1

@@ -23,7 +23,6 @@ task :load_players => :environment do
         next
       end
     end
-    sleep 2
   end
 
   duration = Time.now - start
