@@ -12,3 +12,10 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem 'nokogiri'
+gem 'haml'
+gem 'american_date'
+gem 'bootstrap-sass'
+gem 'bootswatch-rails'
+gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-select-rails'
+gem 'puma'
