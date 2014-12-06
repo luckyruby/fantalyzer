@@ -1,12 +1,13 @@
 %hr
 - if @players.present?
-  %table{class: "table table-bordered table-striped table-hover"}
+  %table{class: "table table-bordered table-striped table-hover table-condensed"}
     %thead
       %tr
         %th First Name
         %th Last Name
         %th Positions
         %th &nbsp;
+    %tbody
       - @players.each do |p|
         %tr
           %td= p.first_name
