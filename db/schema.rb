@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206091742) do
+ActiveRecord::Schema.define(version: 20141206103256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,16 +46,34 @@ ActiveRecord::Schema.define(version: 20141206091742) do
 
   add_index "games", ["player_id"], name: "index_games_on_player_id", using: :btree
 
-  create_table "players", force: true do |t|
-    t.string   "yahoo_id"
+  create_table "player_positions", force: true do |t|
+    t.integer  "player_id",   null: false
+    t.integer  "position_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "player_positions", ["player_id", "position_id"], name: "index_player_positions_on_player_id_and_position_id", unique: true, using: :btree
+
+  create_table "players", id: false, force: true do |t|
+    t.integer  "id",                        null: false
     t.string   "first_name"
     t.string   "last_name"
+    t.boolean  "active",     default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "players", ["first_name", "last_name"], name: "index_players_on_first_name_and_last_name", unique: true, using: :btree
+  add_index "players", ["id"], name: "index_players_on_id", unique: true, using: :btree
   add_index "players", ["last_name"], name: "index_players_on_last_name", using: :btree
-  add_index "players", ["yahoo_id"], name: "index_players_on_yahoo_id", unique: true, using: :btree
+
+  create_table "positions", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "positions", ["name"], name: "index_positions_on_name", unique: true, using: :btree
 
 end

@@ -5,3 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+if Position.all.blank?
+  %w(PG SG G SF PF F C).each {|position| Position.create!(name: position)}
+end
