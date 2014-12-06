@@ -19,3 +19,12 @@ gem 'bootswatch-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-select-rails'
 gem 'puma'
+
+group :development do
+  gem 'spring'
+  gem 'quiet_assets'
+  gem 'capistrano', '~> 3.3'
+  gem 'capistrano-bundler', '~> 1.1.2'
+  gem 'capistrano-rails', '~> 1.0.0'
+  gem 'capistrano3-puma'
+end
