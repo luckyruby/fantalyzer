@@ -11,5 +11,16 @@ class Player < ActiveRecord::Base
   def name
     "#{first_name} #{last_name}"
   end
-  
+
+  def fppg
+    if game_count > 0
+      (games.map(&:fanduel).sum / p.games.length).round(1)
+    else
+      0
+    end
+  end
+
+  def game_count
+    games.length
+  end
 end
