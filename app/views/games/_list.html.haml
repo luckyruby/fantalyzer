@@ -26,6 +26,7 @@
         %th Blk
         %th PF
         %th Pts
+        %th FP
       %tbody
         - @games.each do |g|
           %tr
@@ -51,5 +52,6 @@
             %td= g.blocks
             %td= g.personal_fouls
             %td= g.points
+            %th= g.fanduel
 - else
   .no_results No Games Found

@@ -4,7 +4,7 @@ class GamesController < ApplicationController
       format.html
       format.js {
         @player = Player.find(params[:id])
-        @games = @player.games if @player
+        @games = @player.games.order("game_date DESC") if @player
         render template: 'games/update_list'
       }
     end

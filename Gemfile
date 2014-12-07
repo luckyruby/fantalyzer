@@ -18,6 +18,10 @@ gem 'bootswatch-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-select-rails'
 gem 'puma'
+gem 'http'
+gem 'celluloid'
+gem 'celluloid-io'
+gem 'activerecord-import'
 
 group :development do
   gem 'spring'

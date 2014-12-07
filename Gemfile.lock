@@ -21,6 +21,8 @@ GEM
       activemodel (= 4.1.8)
       activesupport (= 4.1.8)
       arel (~> 5.0.0)
+    activerecord-import (0.6.0)
+      activerecord (>= 3.0)
     activesupport (4.1.8)
       i18n (~> 0.6, >= 0.6.9)
       json (~> 1.7, >= 1.7.7)
@@ -51,6 +53,11 @@ GEM
     capistrano3-puma (0.8.3)
       capistrano (~> 3.0)
       puma (>= 2.6)
+    celluloid (0.16.0)
+      timers (~> 4.0.0)
+    celluloid-io (0.16.1)
+      celluloid (>= 0.16.0)
+      nio4r (>= 1.0.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -64,6 +71,10 @@ GEM
     haml (4.0.6)
       tilt
     hike (1.2.3)
+    hitimes (1.2.2)
+    http (0.6.3)
+      http_parser.rb (~> 0.6.0)
+    http_parser.rb (0.6.0)
     i18n (0.6.11)
     jbuilder (2.2.5)
       activesupport (>= 3.0.0, < 5)
@@ -82,6 +93,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
+    nio4r (1.0.1)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     pg (0.17.1)
@@ -140,6 +152,8 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    timers (4.0.0)
+      hitimes
     turbolinks (2.5.2)
       coffee-rails
     tzinfo (1.2.2)
@@ -152,6 +166,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-import
   american_date
   bootstrap-datepicker-rails
   bootstrap-sass
@@ -161,8 +176,11 @@ DEPENDENCIES
   capistrano-bundler (~> 1.1.2)
   capistrano-rails (~> 1.0.0)
   capistrano3-puma
+  celluloid
+  celluloid-io
   coffee-rails (~> 4.0.0)
   haml
+  http
   jbuilder (~> 2.0)
   jquery-rails
   nokogiri

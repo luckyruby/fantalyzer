@@ -6,6 +6,8 @@
         %th First Name
         %th Last Name
         %th Positions
+        %th FPPG
+        %th Games
         %th &nbsp;
     %tbody
       - @players.each do |p|
@@ -13,6 +15,8 @@
           %td= p.first_name
           %td= p.last_name
           %td= p.positions.map(&:name).join(", ")
+          %td= (p.games.map(&:fanduel).sum / p.games.length).round(1)
+          %td= p.games.length
           %td= link_to 'View Games', games_player_path(p), remote: true
 - else
   .no_results No Players Found
