@@ -12,21 +12,8 @@ class Player < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def mean
-    result = Game.select("avg(fanduel)").where(player_id: self.id).load
-    result.first.avg
-  end
-
-  def game_count
-    games.length
-  end
-
   def fantasy_points
     games.order("game_date").map(&:fanduel).join(",")
   end
 
-  def std_dev
-    result = Game.select("stddev(fanduel)").where(player_id: self.id).load
-    result.first.stddev
-  end
 end

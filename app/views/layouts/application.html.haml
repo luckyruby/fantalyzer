@@ -7,5 +7,12 @@
     = csrf_meta_tag
     = yield(:head)
   %body{data: { controller: controller_name, action: action_name}}
+    %nav.navbar.navbar-default.navbar-fixed-top.navbar-inverse{role: 'navigation'}
+      .container-fluid
+        .navbar-header
+          = link_to 'Fantalyzer', root_path, class: 'navbar-brand'
+        .navbar-collapse.collapse
+          %ul.nav.navbar-nav
+            %li.active= link_to 'Players'
     .container-fluid
       = yield

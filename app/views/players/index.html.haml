@@ -1,7 +1,11 @@
 %h3 Players
 = form_tag players_path, method: :get, remote: true, class: 'ajax_search' do
-  = text_field_tag :search, '', class: 'clear_on_focus'
-  = submit_tag 'Search', class: 'btn btn-primary'
-  = spinner
+  %fieldset
+    .row
+      .form-group
+        .col-md-3= text_field_tag :search, '', class: 'form-control clear_on_focus'
+        .col-md-2
+          = submit_tag 'Search', class: 'btn btn-primary'
+          = spinner
 #players
 #games
