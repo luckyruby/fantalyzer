@@ -12,7 +12,7 @@
         %th &nbsp;
     %tbody
       - @players.each do |p|
-        %tr
+        %tr{class: 'clickable', data: { toggle: 'collapse', target: ".games_#{p.id}"}}
           %td= p.first_name
           %td= p.last_name
           %td= p.positions.map(&:name).join(", ")
@@ -26,6 +26,8 @@
             %span.line= p.fantasy_points
           %td
             %span.box= p.fantasy_points
-          %td= link_to 'View Games', games_player_path(p), remote: true
+        %tr{class: "collapse out games_#{p.id}", data: { player: p.id }}
+          %td{colspan: 7}
+            %div{id: "games_#{p.id}"}
 - else
   .no_results No Players Found
