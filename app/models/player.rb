@@ -12,15 +12,21 @@ class Player < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def fppg
-    if game_count > 0
-      (games.map(&:fanduel).sum / game_count).round(1)
-    else
-      0
-    end
+  def mean
+    result = Game.select("avg(fanduel)").where(player_id: self.id).load
+    result.first.avg.round(1)
   end
 
   def game_count
     games.length
+  end
+
+  def fantasy_points
+    games.map(&:fanduel).join(",")
+  end
+
+  def std_dev
+    result = Game.select("stddev(fanduel)").where(player_id: self.id).load
+    result.first.stddev.round(1)
   end
 end

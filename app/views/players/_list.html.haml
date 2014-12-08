@@ -1,13 +1,14 @@
 %hr
 - if @players.present?
-  %table{class: "table table-bordered table-striped table-hover table-condensed"}
+  %table{class: "table table-bordered table-striped table-hover"}
     %thead
       %tr
         %th First Name
         %th Last Name
         %th Positions
-        %th FPPG
+        %th Mean FP
         %th Games
+        %th &nbsp;
         %th &nbsp;
     %tbody
       - @players.each do |p|
@@ -15,8 +16,15 @@
           %td= p.first_name
           %td= p.last_name
           %td= p.positions.map(&:name).join(", ")
-          %td= p.fppg
+          %td
+            = p.mean
+            &#177;
+            = p.std_dev
           %td= p.game_count
+          %td
+            %span.line= p.fantasy_points
+          %td
+            %span.box= p.fantasy_points
           %td= link_to 'View Games', games_player_path(p), remote: true
 - else
   .no_results No Players Found

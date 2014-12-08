@@ -22,6 +22,7 @@ gem 'http'
 gem 'celluloid'
 gem 'celluloid-io'
 gem 'activerecord-import'
+gem 'jquery-sparkline-rails', git: "https://github.com/RobAtHedtek/jquery-sparkline-rails.git"
 
 group :development do
   gem 'spring'
