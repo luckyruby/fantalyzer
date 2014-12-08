@@ -15,8 +15,6 @@ task load_games: :environment do
   puts "Start: #{start}"
   today = start.to_date
 
-  ActiveRecord::Base.connection.execute("TRUNCATE games restart identity")
-
   columns = [:player_id, :game_date, :opponent, :score, :minutes, :field_goals_made, :field_goals_attempted, :field_goal_percentage, :three_points_made, :three_points_attempted, :three_point_percentage, :free_throws_made, :free_throws_attempted, :free_throw_percentage, :offensive_rebounds, :defensive_rebounds, :rebounds, :assists, :turnovers, :steals, :blocks, :personal_fouls, :points, :fanduel]
   values = []
 
@@ -113,6 +111,7 @@ task load_games: :environment do
     end
     sleep 1
   end
+  ActiveRecord::Base.connection.execute("TRUNCATE games restart identity")
   Game.import columns, values, validate: false
   duration = Time.now - start
   puts "Duration: #{duration}"
