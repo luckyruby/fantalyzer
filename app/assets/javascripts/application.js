@@ -16,4 +16,5 @@
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require bootstrap-select
+//= require highcharts
 //= require_tree .

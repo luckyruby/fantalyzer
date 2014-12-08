@@ -10,7 +10,7 @@ class HttpFetcher
 end
 
 desc "Loads Game Data off of yahoo"
-task :load_games => :environment do
+task load_games: :environment do
   start = Time.now
   puts "Start: #{start}"
   today = start.to_date
@@ -26,8 +26,8 @@ task :load_games => :environment do
   Player.all.in_groups_of(4).each do |group|
     futures = group.compact.each_with_index.map do |player, proxy|
       url = "http://sports.yahoo.com/nba/players/#{player.id}/gamelog/"
-      [player, fetcher.future.fetch(url, proxies[proxy])]
       puts "#{player.name} -- GET to #{url} via #{proxies[proxy]}"
+      [player, fetcher.future.fetch(url, proxies[proxy])]
     end
     futures.each do |player, future|
       games = {}

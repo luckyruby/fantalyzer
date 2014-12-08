@@ -22,6 +22,7 @@ gem 'http'
 gem 'celluloid'
 gem 'celluloid-io'
 gem 'activerecord-import'
+gem 'highcharts-rails'
 
 group :development do
   gem 'spring'

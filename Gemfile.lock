@@ -70,6 +70,8 @@ GEM
     execjs (2.2.2)
     haml (4.0.6)
       tilt
+    highcharts-rails (3.0.10)
+      railties (>= 3.1)
     hike (1.2.3)
     hitimes (1.2.2)
     http (0.6.3)
@@ -180,6 +182,7 @@ DEPENDENCIES
   celluloid-io
   coffee-rails (~> 4.0.0)
   haml
+  highcharts-rails
   http
   jbuilder (~> 2.0)
   jquery-rails
