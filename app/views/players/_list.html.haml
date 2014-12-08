@@ -17,9 +17,10 @@
           %td= p.last_name
           %td= p.positions.map(&:name).join(", ")
           %td
-            = p.mean
-            &#177;
-            = p.std_dev
+            - if p.mean && p.std_dev
+              = p.mean.round(1)
+              &#177;
+              = p.std_dev.round(1)
           %td= p.game_count
           %td
             %span.line= p.fantasy_points
