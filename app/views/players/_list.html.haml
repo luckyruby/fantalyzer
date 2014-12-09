@@ -3,8 +3,7 @@
   %table{class: "table table-bordered table-striped table-hover"}
     %thead
       %tr
-        %th First Name
-        %th Last Name
+        %th Name
         %th Positions
         %th Mean FP
         %th CV
@@ -13,9 +12,8 @@
         %th &nbsp;
     %tbody
       - @players.each do |p|
-        %tr{class: 'clickable', data: { toggle: 'collapse', target: ".games_#{p.id}"}}
-          %td= p.first_name
-          %td= p.last_name
+        %tr{class: 'clickable', href: ".games_#{p.id}", data: { toggle: 'collapse', target: ".games_#{p.id}"}}
+          %td= p.name
           %td= p.positions.map(&:name).join(", ")
           %td
             - if p.mean.present?
@@ -29,8 +27,7 @@
           %td
             %span.box= p.fantasy_points
         %tr{class: "collapse out games_#{p.id}", data: { player: p.id }}
-          %td{colspan: 8}
-            %div{id: "chart_#{p.id}"}
+          %td{colspan: 7}
             %div{id: "games_#{p.id}"}
 - else
   .no_results No Players Found
