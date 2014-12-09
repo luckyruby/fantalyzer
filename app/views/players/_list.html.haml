@@ -29,7 +29,8 @@
           %td
             %span.box= p.fantasy_points
         %tr{class: "collapse out games_#{p.id}", data: { player: p.id }}
-          %td{colspan: 7}
+          %td{colspan: 8}
+            %div{id: "chart_#{p.id}"}
             %div{id: "games_#{p.id}"}
 - else
   .no_results No Players Found
