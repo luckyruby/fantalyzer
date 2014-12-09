@@ -30,6 +30,28 @@ namespace :deploy do
     end
   end
 
+  desc 'Load Players'
+  task :load_players do
+    on roles(:db) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'load_players'
+        end
+      end
+    end
+  end
+
+  desc 'Update Aggregates'
+  task :update_aggregates do
+    on roles(:db) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'update_aggregates'
+        end
+      end
+    end
+  end
+
   after :publishing, :restart
 
   after :restart, :clear_cache do
