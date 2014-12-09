@@ -7,6 +7,7 @@
         %th Last Name
         %th Positions
         %th Mean FP
+        %th CV
         %th Games
         %th &nbsp;
         %th &nbsp;
@@ -20,7 +21,8 @@
             - if p.mean.present?
               = p.mean
               &#177;
-              = p.std_dev
+              = p.std_dev || 0
+          %td= p.cv
           %td= p.games_played
           %td
             %span.line= p.fantasy_points

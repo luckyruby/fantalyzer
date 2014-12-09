@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208151157) do
+ActiveRecord::Schema.define(version: 20141208184841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,9 @@ ActiveRecord::Schema.define(version: 20141208151157) do
     t.decimal  "mean",         precision: 4, scale: 1
     t.decimal  "std_dev",      precision: 4, scale: 1
     t.integer  "games_played"
+    t.decimal  "cv",           precision: 4, scale: 3
+    t.decimal  "value",        precision: 4, scale: 3
+    t.string   "name"
   end
 
   add_index "players", ["first_name", "last_name"], name: "index_players_on_first_name_and_last_name", unique: true, using: :btree
