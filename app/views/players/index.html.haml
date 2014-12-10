@@ -1,10 +1,12 @@
 %h3 Players
-= form_tag players_path, method: :get, remote: true, class: 'ajax_search form-inline', role: 'form' do
+= form_for @search, as: 'search', url: players_path, html: {autocomplete: 'off', class: 'ajax_search form-inline', role: 'form'}, method: :get, remote: true do |f|
   .form-group
-    .col-xs-8
-      = text_field_tag :search, '', class: 'form-control clear_on_focus'
-    .col-xs-3
-      = submit_tag 'Search', class: 'btn btn-primary'
-      = spinner
+    %label Name
+    = f.text_field :name, class: 'form-control clear_on_focus'
+  .form-group
+    %label Position
+    = f.select :position, options_for_select(Position.pluck(:name)), { include_blank: true }, class: 'form-control'
+  = f.submit 'Search', class: 'btn btn-primary'
+  = spinner
 #players
 #games
