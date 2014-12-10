@@ -18,8 +18,9 @@ class PlayerSearch
 
   def results
     players = Player.eager_load(:games, :positions).order("mean desc nulls last")
-    players.where("name ilike ?", "%#{name}%") if name.present?
-    players.where(positions: { name: position }) if position.present?
+    players = players.where("players.name ilike ?", "%#{name}%") if name.present?
+    players = players.where(positions: { name: position }) if position.present?
+    players
   end
 
 end
