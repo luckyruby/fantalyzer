@@ -30,7 +30,7 @@ class Player < ActiveRecord::Base
     end
 
     def load_salaries(data)
-      parsed_data = JSON.parse(params[:data])
+      parsed_data = JSON.parse(data)
       Player.update_all(salary: nil)
       parsed_data.values.each do |v|
         name = v[1]
