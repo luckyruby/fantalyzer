@@ -13,6 +13,9 @@
           = link_to 'Fantalyzer', root_path, class: 'navbar-brand'
         .navbar-collapse.collapse
           %ul.nav.navbar-nav
-            %li.active= link_to 'Players'
+            %li{class: @player_select}= link_to 'Players', players_path
+            %li{class: @salary_select}= link_to 'Load Salaries', salaries_players_path
     .container-fluid
+      - flash.each do |name, msg|
+        = content_tag :div, msg, :id => "flash_#{name}"
       = yield

@@ -7,6 +7,8 @@
         %th Positions
         %th Mean FP
         %th CV
+        %th Salary
+        %th Value
         %th Games
         %th &nbsp;
         %th &nbsp;
@@ -21,6 +23,8 @@
               &#177;
               = p.std_dev || 0
           %td= p.cv
+          %td= number_to_currency(p.salary)
+          %td= p.value
           %td= p.games_played
           %td
             %span.line= p.fantasy_points

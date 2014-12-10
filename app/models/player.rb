@@ -16,4 +16,31 @@ class Player < ActiveRecord::Base
     games.order("game_date").map(&:fanduel).join(",")
   end
 
+  class << self
+    def update_aggregates
+      aggregates = Game.select("player_id, avg(fanduel), stddev(fanduel), count(*) games_played, stddev(fanduel)/avg(fanduel) cv").group("player_id").group_by(&:player_id)
+
+      Player.all.each do |player|
+        stats = aggregates[player.id]
+        if stats.present?
+          value = player.salary? ? stats[0].avg / player.salary * 1000 : nil
+          player.update({mean: stats[0].avg, std_dev: stats[0].stddev, games_played: stats[0].games_played, cv: stats[0].cv, value: value})
+        end
+      end
+    end
+
+    def load_salaries(data)
+      parsed_data = JSON.parse(params[:data])
+      Player.update_all(salary: nil)
+      parsed_data.values.each do |v|
+        name = v[1]
+        player = Player.where("UPPER(name) = ?", name.upcase).first
+        if player
+          player.update({salary: v[5]})
+        end
+      end
+      Player.update_aggregates
+    end
+  end
+
 end

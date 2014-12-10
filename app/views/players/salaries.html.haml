@@ -1,0 +1,5 @@
+%h3 Load Salary JSON
+= form_tag load_salaries_players_path do
+  .form-group
+    = text_area_tag :data, nil, class: 'form-control', rows: 20
+  = submit_tag 'Load', class: 'btn btn-primary'
