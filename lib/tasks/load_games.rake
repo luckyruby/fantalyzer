@@ -46,7 +46,10 @@ task load_games: :environment do
       scores.each_with_index {|score, i| games[i][:score] = score}
 
       minutes = game_log.css('.minutes-played').map(&:text)
-      minutes.each_with_index {|minute, i| games[i][:minutes] = minute}
+      minutes.each_with_index do |minute, i|
+        split_minute = minute.split(":")
+        games[i][:minutes] = (split_minute[0].to_i + split_minute[1].to_i/60.0).round(2)
+      end
 
       field_goals_made = game_log.css('.field-goals-made').map(&:text)
       field_goals_made.each_with_index {|field_goals, i| games[i][:field_goals_made] = field_goals}
