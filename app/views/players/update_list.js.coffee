@@ -22,4 +22,6 @@ $('.collapse').on 'show.bs.collapse', ->
   player_id = $(this).data('player')
   $.get "players/#{player_id}/games",{},null,'script'
 
+$('[data-toggle="tooltip"]').tooltip()
+
 $('#games').empty()

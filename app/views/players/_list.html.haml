@@ -6,7 +6,8 @@
         %th Name
         %th Positions
         %th Mean FP
-        %th CV
+        %th
+          %span{title: 'Coefficient of Variation', data: {toggle: 'tooltip', placement: 'top'}} CV
         %th Salary
         %th $/FP
         %th Games
@@ -31,7 +32,7 @@
           %td
             %span.box= p.fantasy_points
         %tr{class: "collapse out games_#{p.id}", data: { player: p.id }}
-          %td{colspan: 7}
+          %td{colspan: 100}
             %div{id: "games_#{p.id}"}
 - else
   .no_results No Players Found
