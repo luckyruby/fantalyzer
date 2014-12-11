@@ -22,7 +22,7 @@
             - if p.mean.present?
               = p.mean
               &#177;
-              = p.std_dev || 0
+              = p.confidence_interval
           %td= p.cv
           %td= number_to_currency(p.salary)
           %td= number_to_currency(p.cost_per_point)
