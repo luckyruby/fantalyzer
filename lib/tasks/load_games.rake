@@ -108,7 +108,7 @@ task load_games: :environment do
       games.delete(0)
 
       games.values.each do |i|
-        i[:fanduel] = i[:points].to_i + i[:rebounds].to_i * BigDecimal.new('1.2') + i[:assists].to_i * BigDecimal.new('1.5') + i[:blocks].to_i * 2 - i[:turnovers].to_i
+        i[:fanduel] = i[:points].to_i + i[:rebounds].to_i * BigDecimal.new('1.2') + i[:assists].to_i * BigDecimal.new('1.5') + i[:blocks].to_i * 2 + i[:steals].to_i * 2 - i[:turnovers].to_i
         values << [player.id, i[:game_date], i[:opponent], i[:score], i[:minutes], i[:field_goals_made], i[:field_goals_attempted], i[:field_goal_percentage], i[:three_points_made], i[:three_points_attempted], i[:three_point_percentage], i[:free_throws_made], i[:free_throws_attempted], i[:free_throw_percentage], i[:offensive_rebounds], i[:defensive_rebounds], i[:rebounds], i[:assists], i[:turnovers], i[:steals], i[:blocks], i[:personal_fouls], i[:points], i[:fanduel]]
       end
     end
