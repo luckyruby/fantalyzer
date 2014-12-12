@@ -29,7 +29,7 @@ class Player < ActiveRecord::Base
       Player.all.each do |player|
         stats = aggregates[player.id]
         if stats.present?
-          cost_per_point = player.salary? ? player.salary / stats[0].avg : nil
+          cost_per_point = (player.salary? && stats[0].avg > 0) ? player.salary / stats[0].avg : nil
           player.update({mean: stats[0].avg, std_dev: stats[0].stddev, games_played: stats[0].games_played, cv: stats[0].cv, cost_per_point: cost_per_point})
         end
       end
