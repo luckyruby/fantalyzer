@@ -16,21 +16,15 @@ class Player < ActiveRecord::Base
     games.order("game_date").map(&:fanduel).join(",")
   end
 
-  def confidence_interval
-    (std_dev / Math.sqrt(games_played) * 1.96).round(2)
-  rescue
-    0
-  end
-
   class << self
     def update_aggregates
-      aggregates = Game.select("player_id, avg(fanduel), stddev(fanduel), count(*) games_played, stddev(fanduel)/avg(fanduel) cv").group("player_id").group_by(&:player_id)
+      aggregates = Game.select("player_id, avg(fanduel), stddev(fanduel), count(*) games_played, stddev(fanduel)/avg(fanduel) cv, stddev(fanduel)/(|/ count(*))*1.96 confidence_interval").group("player_id").group_by(&:player_id)
 
       Player.all.each do |player|
         stats = aggregates[player.id]
         if stats.present?
           cost_per_point = (player.salary? && stats[0].avg > 0) ? player.salary / stats[0].avg : nil
-          player.update({mean: stats[0].avg, std_dev: stats[0].stddev, games_played: stats[0].games_played, cv: stats[0].cv, cost_per_point: cost_per_point})
+          player.update({mean: stats[0].avg, std_dev: stats[0].stddev, games_played: stats[0].games_played, cv: stats[0].cv, cost_per_point: cost_per_point, confidence_interval: stats[0].confidence_interval})
         end
       end
     end
@@ -40,9 +34,8 @@ class Player < ActiveRecord::Base
       Player.update_all(salary: nil)
       parsed_data.values.each do |v|
         name = v[1]
-        player = Player.where("UPPER(name) = ?", name.upcase).first
-        if player
-          player.update({salary: v[5]})
+        if player = Player.where("UPPER(name) = ?", name.upcase).first
+          player.update({position: v[0], salary: v[5]})
         end
       end
       Player.update_aggregates

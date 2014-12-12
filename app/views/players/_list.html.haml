@@ -4,7 +4,7 @@
     %thead
       %tr
         %th Name
-        %th Positions
+        %th Position
         %th Mean FP
         %th
           %span{title: 'Coefficient of Variation', data: {toggle: 'tooltip', placement: 'top'}} CV
@@ -17,7 +17,7 @@
       - @players.each do |p|
         %tr{class: 'clickable', data: { target: ".games_#{p.id}"}}
           %td= p.name
-          %td= p.positions.map(&:name).join(", ")
+          %td= p.position
           %td
             - if p.mean.present?
               = p.mean
