@@ -23,6 +23,7 @@ gem 'celluloid'
 gem 'celluloid-io'
 gem 'activerecord-import'
 gem 'highcharts-rails'
+gem 'devise'
 
 group :development do
   gem 'spring'

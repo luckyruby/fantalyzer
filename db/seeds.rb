@@ -8,3 +8,8 @@
 if Position.all.blank?
   %w(PG SG G SF PF F C).each {|position| Position.create!(name: position)}
 end
+
+if User.all.blank?
+  User.create!(first_name: 'Ken', last_name: 'Lin', email: 'klin@luckyruby.com', password: 'password', admin: true)
+  User.create!(first_name: 'Jeff', last_name: 'Lin', email: 'chopinique21@gmail.com', password: 'password')
+end

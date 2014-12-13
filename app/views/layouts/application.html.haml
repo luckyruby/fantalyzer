@@ -15,6 +15,12 @@
           %ul.nav.navbar-nav
             %li{class: @player_select}= link_to 'Players', players_path
             %li{class: @salary_select}= link_to 'Load Salaries', salaries_players_path
+          %ul.nav.navbar-nav.navbar-right
+            %li.dropdown
+              = link_to user_icon, nil, class: 'dropdown-toggle', data: { toggle: 'dropdown'}
+              %ul.dropdown-menu
+                %li= link_to "Edit Profile", edit_user_registration_path
+                %li= link_to "Log Out", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure you want to log out?" }
     .container-fluid
       - flash.each do |name, msg|
         = content_tag :div, msg, :id => "flash_#{name}"
