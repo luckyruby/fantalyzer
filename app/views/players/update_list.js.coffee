@@ -21,7 +21,7 @@ $('.clickable').click (e) ->
 $('[data-toggle="tooltip"]').tooltip()
 
 $.tablesorter.addParser
-  id: "mean"
+  id: "mean_fp"
   is: (s) ->
     # return false so this parser is not auto detected
     false
@@ -39,7 +39,7 @@ $('#players_table').tablesorter
     1:
       sorter: false
     2:
-      sorter: "mean"
+      sorter: "mean_fp"
     7:
       sorter: false
       filter: false
