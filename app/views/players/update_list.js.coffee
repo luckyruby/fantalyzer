@@ -27,7 +27,7 @@ $.tablesorter.addParser
     false
   format: (s) ->
     # format your data for normalization
-    return s.split(" ")[0]
+    return parseFloat(s.split(" ")[0])
   parsed: true
   type: "numeric"
 
@@ -46,4 +46,5 @@ $('#players_table').tablesorter
     8:
       sorter: false
       filter: false
+
 $('#games').empty()
