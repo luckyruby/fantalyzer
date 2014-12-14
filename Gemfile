@@ -24,6 +24,7 @@ gem 'celluloid-io'
 gem 'activerecord-import'
 gem 'highcharts-rails'
 gem 'devise'
+gem 'jquery-tablesorter'
 
 group :development do
   gem 'spring'

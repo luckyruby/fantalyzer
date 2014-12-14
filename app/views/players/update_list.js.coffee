@@ -24,4 +24,28 @@ $('.collapse').on 'show.bs.collapse', ->
 
 $('[data-toggle="tooltip"]').tooltip()
 
+$.tablesorter.addParser
+  id: "mean"
+  is: (s) ->
+    # return false so this parser is not auto detected
+    false
+  format: (s) ->
+    # format your data for normalization
+    s.split(" ")[0]
+  type: "numeric"
+
+$('#players_table').tablesorter
+  theme: 'bootstrap'
+  headerTemplate: '{content} {icon}'
+  widgets: ["uitheme"]
+  headers:
+    1:
+      sorter: false
+    2:
+      sorter: "mean"
+    7:
+      sorter: false
+    8:
+      sorter: false
+
 $('#games').empty()

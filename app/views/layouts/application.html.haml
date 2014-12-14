@@ -11,11 +11,11 @@
       .container-fluid
         .navbar-header
           = link_to 'Fantalyzer', root_path, class: 'navbar-brand'
-        .navbar-collapse.collapse
-          %ul.nav.navbar-nav
-            %li{class: @player_select}= link_to 'Players', players_path
-            %li{class: @salary_select}= link_to 'Load Salaries', salaries_players_path
-          - if current_user
+        - if current_user
+          .navbar-collapse.collapse
+            %ul.nav.navbar-nav
+              %li{class: @player_select}= link_to 'Players', players_path
+              %li{class: @salary_select}= link_to 'Load Salaries', salaries_players_path
             %ul.nav.navbar-nav.navbar-right
               %li.dropdown
                 = link_to user_icon, nil, class: 'dropdown-toggle', data: { toggle: 'dropdown'}

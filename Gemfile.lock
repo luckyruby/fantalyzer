@@ -92,6 +92,8 @@ GEM
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-tablesorter (1.13.3)
+      railties (>= 3.1, < 5)
     json (1.8.1)
     libv8 (3.16.14.7)
     mail (2.6.3)
@@ -200,6 +202,7 @@ DEPENDENCIES
   http
   jbuilder (~> 2.0)
   jquery-rails
+  jquery-tablesorter
   nokogiri
   pg
   puma

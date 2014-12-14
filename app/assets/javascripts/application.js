@@ -17,4 +17,5 @@
 //= require bootstrap-datepicker
 //= require bootstrap-select
 //= require highcharts
+//= require jquery-tablesorter
 //= require_tree .
