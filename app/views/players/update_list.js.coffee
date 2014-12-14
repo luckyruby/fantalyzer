@@ -28,6 +28,7 @@ $.tablesorter.addParser
   format: (s) ->
     # format your data for normalization
     s.split(" ")[0]
+  parsed: true
   type: "numeric"
 
 $('#players_table').tablesorter
