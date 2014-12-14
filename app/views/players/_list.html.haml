@@ -1,5 +1,7 @@
 %hr
 - if @players.present?
+  - @players.each do |p|
+    %div{id: "games_#{p.id}", class: 'modal', tabindex: -1}
   %table{id: 'players_table', class: "table table-bordered table-striped table-hover"}
     %thead
       %tr
@@ -15,7 +17,7 @@
         %th &nbsp;
     %tbody
       - @players.each do |p|
-        %tr{class: 'clickable', data: { target: ".games_#{p.id}"}}
+        %tr{class: 'clickable', data: { player: p.id }}
           %td= p.name
           %td= p.salary.position
           %td
@@ -31,8 +33,5 @@
             %span.line= p.fantasy_points
           %td
             %span.box= p.fantasy_points
-        %tr{class: "collapse out games_#{p.id}", data: { player: p.id }}
-          %td{colspan: 100}
-            %div{id: "games_#{p.id}"}
 - else
   .no_results No Players Found

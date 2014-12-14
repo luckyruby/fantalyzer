@@ -15,10 +15,6 @@ $('.box').sparkline 'html',
 
 $('.clickable').click (e) ->
   e.preventDefault
-  target = $(this).data('target')
-  $(target).collapse('toggle')
-
-$('.collapse').on 'show.bs.collapse', ->
   player_id = $(this).data('player')
   $.get "players/#{player_id}/games",{},null,'script'
 
@@ -37,7 +33,7 @@ $.tablesorter.addParser
 $('#players_table').tablesorter
   theme: 'bootstrap'
   headerTemplate: '{content} {icon}'
-  widgets: ["uitheme"]
+  widgets: ["uitheme", "filter"]
   headers:
     1:
       sorter: false
@@ -45,7 +41,8 @@ $('#players_table').tablesorter
       sorter: "mean"
     7:
       sorter: false
+      filter: false
     8:
       sorter: false
-
+      filter: false
 $('#games').empty()
