@@ -27,7 +27,7 @@ $.tablesorter.addParser
     false
   format: (s) ->
     # format your data for normalization
-    s.split(" ")[0]
+    return s.split(" ")[0]
   parsed: true
   type: "numeric"
 
