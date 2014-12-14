@@ -3,7 +3,7 @@ class PlayerSearch
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  attr_accessor :name, :position
+  attr_accessor :name, :position, :user_id
   attr_reader :results
 
   def initialize(attributes = {})
@@ -17,9 +17,9 @@ class PlayerSearch
   end
 
   def results
-    players = Player.eager_load(:games, :positions).where("games_played > 0 and salary > 0").order("mean desc nulls last, salary desc")
+    players = Player.eager_load(:games, :salary, :statistic).where("statistics.games_played > 0 and salaries.salary > 0 and salaries.user_id = ?", user_id).order("mean desc nulls last, salaries.salary desc")
     players = players.where("players.name ilike ?", "%#{name}%") if name.present?
-    players = players.where(position: position) if position.present?
+    players = players.where(salaries: {position: position}) if position.present?
     players
   end
 

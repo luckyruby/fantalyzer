@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141213202934) do
+ActiveRecord::Schema.define(version: 20141214125436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,44 +47,46 @@ ActiveRecord::Schema.define(version: 20141213202934) do
 
   add_index "games", ["player_id"], name: "index_games_on_player_id", using: :btree
 
-  create_table "player_positions", force: true do |t|
-    t.integer  "player_id",   null: false
-    t.integer  "position_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "player_positions", ["player_id", "position_id"], name: "index_player_positions_on_player_id_and_position_id", unique: true, using: :btree
-
   create_table "players", id: false, force: true do |t|
-    t.integer  "id",                                                         null: false
+    t.integer  "id",                        null: false
     t.string   "first_name"
     t.string   "last_name"
-    t.boolean  "active",                                      default: true, null: false
+    t.boolean  "active",     default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "salary"
-    t.decimal  "mean",                precision: 4, scale: 1
-    t.decimal  "std_dev",             precision: 4, scale: 1
-    t.integer  "games_played"
-    t.decimal  "cv",                  precision: 4, scale: 3
     t.string   "name"
-    t.decimal  "cost_per_point",      precision: 8, scale: 2
-    t.string   "position"
-    t.decimal  "confidence_interval", precision: 4, scale: 2
   end
 
   add_index "players", ["first_name", "last_name"], name: "index_players_on_first_name_and_last_name", unique: true, using: :btree
   add_index "players", ["id"], name: "index_players_on_id", unique: true, using: :btree
   add_index "players", ["last_name"], name: "index_players_on_last_name", using: :btree
+  add_index "players", ["name"], name: "index_players_on_name", unique: true, using: :btree
 
-  create_table "positions", force: true do |t|
-    t.string   "name",       null: false
+  create_table "salaries", force: true do |t|
+    t.integer  "user_id",                                                null: false
+    t.integer  "player_id",                                              null: false
+    t.string   "position",                                               null: false
+    t.integer  "salary",                                                 null: false
+    t.decimal  "cost_per_point", precision: 8, scale: 2
+    t.boolean  "late",                                   default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "positions", ["name"], name: "index_positions_on_name", unique: true, using: :btree
+  add_index "salaries", ["user_id", "player_id", "late"], name: "index_salaries_on_user_id_and_player_id_and_late", unique: true, using: :btree
+
+  create_table "statistics", force: true do |t|
+    t.integer  "player_id"
+    t.decimal  "mean",                precision: 4, scale: 2
+    t.decimal  "std_dev",             precision: 4, scale: 2
+    t.decimal  "cv",                  precision: 4, scale: 3
+    t.decimal  "confidence_interval", precision: 4, scale: 2
+    t.integer  "games_played"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "statistics", ["player_id"], name: "index_statistics_on_player_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "first_name",                             null: false
