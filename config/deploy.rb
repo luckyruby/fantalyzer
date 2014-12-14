@@ -41,12 +41,12 @@ namespace :deploy do
     end
   end
 
-  desc 'Update Aggregates'
-  task :update_aggregates do
+  desc 'Update Statistics'
+  task :update_statistics do
     on roles(:db) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rake, 'update_aggregates'
+          execute :rake, 'update_statistics'
         end
       end
     end
