@@ -6,7 +6,7 @@ class Player < ActiveRecord::Base
   has_one :salary, dependent: :destroy, autosave: true
   has_one :statistic, dependent: :destroy, autosave: true
 
-  delegate :mean, :std_dev, :cv, :confidence_interval, :games_played, to: :statistic, allow_nil: true
+  delegate :mean, :std_dev, :cv, :max_fanduel, :confidence_interval, :games_played, to: :statistic, allow_nil: true
 
   validates :id, :first_name, :last_name, presence: true
   validates :id, :name, uniqueness: true
@@ -24,7 +24,7 @@ class Player < ActiveRecord::Base
 
   class << self
     def update_statistics
-      aggregates = Game.select("player_id, avg(fanduel), stddev(fanduel), count(*) games_played, stddev(fanduel)/avg(fanduel) cv, stddev(fanduel)/(|/ count(*))*1.96 confidence_interval").group("player_id").group_by(&:player_id)
+      aggregates = Game.select("player_id, avg(fanduel), stddev(fanduel), count(*) games_played, stddev(fanduel)/avg(fanduel) cv, stddev(fanduel)/(|/ count(*))*1.96 confidence_interval, max(fanduel) as max_fanduel").group("player_id").group_by(&:player_id)
 
       Player.all.each do |player|
         stats = aggregates[player.id]
@@ -35,6 +35,7 @@ class Player < ActiveRecord::Base
           statistic.games_played = stats[0].games_played
           statistic.cv = stats[0].cv
           statistic.confidence_interval = stats[0].confidence_interval
+          statistic.max_fanduel = stats[0].max_fanduel
           statistic.save
         end
       end

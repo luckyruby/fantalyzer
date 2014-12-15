@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141214125436) do
+ActiveRecord::Schema.define(version: 20141215041341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20141214125436) do
     t.integer  "games_played"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "max_fanduel",         precision: 4, scale: 1
   end
 
   add_index "statistics", ["player_id"], name: "index_statistics_on_player_id", unique: true, using: :btree

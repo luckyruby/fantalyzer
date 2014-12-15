@@ -1,7 +1,7 @@
 require 'open-uri'
 
 desc "Loads Player Data off of yahoo"
-task :load_players => :environment do
+task load_players: :environment do
   start = Time.now
   puts "Start: #{start}"
 
