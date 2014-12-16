@@ -40,10 +40,10 @@ $('#players_table').tablesorter
       sorter: false
     2:
       sorter: "mean_fp"
-    8:
+    9:
       sorter: false
       filter: false
-    9:
+    10:
       sorter: false
       filter: false
 
