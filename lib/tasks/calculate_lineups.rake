@@ -17,7 +17,7 @@ task calculate_lineups: :environment do
   salaries.each do |k,v|
     num = (k == 'C' ? 1 : 2)
     combos[k] = v.combination(num).map {|p| p.map(&:salary).sum}.uniq.sort.reverse
-    combos_by_salary[k] = v.combination(num).map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.mean_last5}.sum.to_f]}.group_by {|i| i[1]}
+    combos_by_salary[k] = v.combination(num).map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.last_5 || 0}.sum.to_f]}.group_by {|i| i[1]}
   end
   combos_by_salary.each do |position,salaries|
     salaries.each do |salary,players|
@@ -44,7 +44,7 @@ task calculate_lineups: :environment do
               players[p] = salary[0].join(", ")
               salary[2]
             end
-            next if points.sum < 260
+            next if points.sum < 290
             lineup = {
               pg: players['PG'],
               sg: players['SG'],
@@ -53,6 +53,7 @@ task calculate_lineups: :environment do
               c: players['C'],
               points: points.sum.round(2)
             }
+            puts lineup
             lineups << lineup
           end
         end
@@ -61,6 +62,8 @@ task calculate_lineups: :environment do
   end
   lineups.sort! {|a,b| a[:points] <=> b[:points]}
   puts lineups.length
+  puts "\n\n\n"
+  puts "TOP 50 LINEUPS"
   puts lineups.last(50).reverse
 
   duration = Time.now - start

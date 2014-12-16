@@ -6,7 +6,7 @@ class Player < ActiveRecord::Base
   has_one :salary, dependent: :destroy, autosave: true
   has_one :statistic, dependent: :destroy, autosave: true
 
-  delegate :mean, :std_dev, :cv, :max_fanduel, :confidence_interval, :games_played, to: :statistic, allow_nil: true
+  delegate :mean, :std_dev, :cv, :max_fanduel, :confidence_interval, :games_played, :last_5, to: :statistic, allow_nil: true
 
   validates :id, :first_name, :last_name, presence: true
   validates :id, :name, uniqueness: true
@@ -20,11 +20,6 @@ class Player < ActiveRecord::Base
 
   def fantasy_points
     games.order("game_date").map(&:fanduel).join(",")
-  end
-
-  def mean_last5
-    last5_games = games.order("game_date DESC").limit(5)
-    last5_games.map(&:fanduel).sum / 5.0
   end
 
   class << self
@@ -41,6 +36,7 @@ class Player < ActiveRecord::Base
           statistic.cv = stats[0].cv
           statistic.confidence_interval = stats[0].confidence_interval
           statistic.max_fanduel = stats[0].max_fanduel
+          statistic.last_5 = player.games.order("game_date DESC").limit(5).map(&:fanduel).sum / 5.0
           statistic.save
         end
       end
