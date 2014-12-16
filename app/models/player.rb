@@ -45,6 +45,7 @@ class Player < ActiveRecord::Base
       parsed_data = JSON.parse(data)
       Salary.delete_all(user_id: user.id)
       parsed_data.values.each do |v|
+        next if v[12] == "OUT"
         name = v[1]
         if player = Player.where("UPPER(name) = ?", name.upcase).first
           salary = v[5].to_i
