@@ -8,8 +8,8 @@
         %th Name
         %th Position
         %th Mean FP
-        %th
-          %span{title: 'Coefficient of Variation', data: {toggle: 'tooltip', placement: 'top'}} CV
+        %th CV
+        %th Last 5
         %th Max FP
         %th Salary
         %th $/FP
@@ -27,6 +27,7 @@
               &#177;
               = p.confidence_interval
           %td= p.cv
+          %td= p.mean_last5
           %td= p.max_fanduel
           %td= number_to_currency(p.salary.salary)
           %td= number_to_currency(p.salary.cost_per_point)

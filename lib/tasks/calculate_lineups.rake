@@ -17,7 +17,7 @@ task calculate_lineups: :environment do
   salaries.each do |k,v|
     num = (k == 'C' ? 1 : 2)
     combos[k] = v.combination(num).map {|p| p.map(&:salary).sum}.uniq.sort.reverse
-    combos_by_salary[k] = v.combination(num).map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.mean || 0}.sum.to_f]}.group_by {|i| i[1]}
+    combos_by_salary[k] = v.combination(num).map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.mean_last5}.sum.to_f]}.group_by {|i| i[1]}
   end
   combos_by_salary.each do |position,salaries|
     salaries.each do |salary,players|

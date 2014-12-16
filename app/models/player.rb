@@ -22,6 +22,11 @@ class Player < ActiveRecord::Base
     games.order("game_date").map(&:fanduel).join(",")
   end
 
+  def mean_last5
+    last5_games = games.order("game_date DESC").limit(5)
+    last5_games.map(&:fanduel).sum / 5.0
+  end
+
   class << self
     def update_statistics
       aggregates = Game.select("player_id, avg(fanduel), stddev(fanduel), count(*) games_played, stddev(fanduel)/avg(fanduel) cv, stddev(fanduel)/(|/ count(*))*1.96 confidence_interval, max(fanduel) as max_fanduel").group("player_id").group_by(&:player_id)
