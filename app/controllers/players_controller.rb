@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:games]
 
   def index
     respond_to do |format|
