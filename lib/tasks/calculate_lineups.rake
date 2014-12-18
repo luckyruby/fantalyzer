@@ -1,5 +1,5 @@
 desc "Calculate Lineups"
-task calculate_lineups: :environment do
+task :calculate_lineups, [:max_points] => :environment do |t,args|
   start = Time.now
   puts "Start: #{start}"
   require 'csv'
@@ -47,7 +47,7 @@ task calculate_lineups: :environment do
               players[p] = salary[0].join(", ")
               salary[2]
             end
-            next if points.sum < 280
+            next if points.sum < args.max_points.to_i
             lineup = {
               pg: players['PG'],
               sg: players['SG'],

@@ -34,7 +34,7 @@ $.tablesorter.addParser
 $('#players_table').tablesorter
   theme: 'bootstrap'
   headerTemplate: '{content} {icon}'
-  widgets: ["uitheme", "filter"]
+  widgets: ["uitheme", "filter", "resizable"]
   headers:
     1:
       sorter: false

@@ -8,6 +8,8 @@ class Player < ActiveRecord::Base
 
   delegate :mean, :std_dev, :cv, :max_fanduel, :confidence_interval, :games_played, :last_5, to: :statistic, allow_nil: true
 
+  delegate :position, :status, :cost_per_point, to: :salary, allow_nil: true
+
   validates :id, :first_name, :last_name, presence: true
   validates :id, :name, uniqueness: true
   validates :last_name, uniqueness: { scope: :first_name }
@@ -46,7 +48,6 @@ class Player < ActiveRecord::Base
       parsed_data = JSON.parse(data)
       Salary.delete_all(user_id: user.id)
       parsed_data.values.each do |v|
-        next if v[12] == "OUT"
         name = v[1]
         status = case v[12]
         when "OUT" then 'out'
