@@ -16,6 +16,11 @@ class PlayersController < ApplicationController
     end
   end
 
+  def games
+    @games = Game.all
+    render json: @games
+  end
+
   def salaries
     @salary_select = 'active'
   end

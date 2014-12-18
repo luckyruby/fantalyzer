@@ -47,7 +47,7 @@ task calculate_lineups: :environment do
               players[p] = salary[0].join(", ")
               salary[2]
             end
-            next if points.sum < 270
+            next if points.sum < 280
             lineup = {
               pg: players['PG'],
               sg: players['SG'],
