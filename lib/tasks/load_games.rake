@@ -4,8 +4,12 @@ require 'http'
 class HttpFetcher
   include Celluloid::IO
 
-  def fetch(url, proxy)
-    HTTP.via(proxy, 3128).get(url, socket_class: Celluloid::IO::TCPSocket)
+  def fetch(url, proxy=nil)
+    if proxy
+      HTTP.via(proxy, 3128).get(url, socket_class: Celluloid::IO::TCPSocket)
+    else
+      HTTP.get(url, socket_class: Celluloid::IO::TCPSocket)
+    end
   end
 end
 
@@ -19,12 +23,12 @@ task load_games: :environment do
   values = []
 
   fetcher = HttpFetcher.new
-  proxies = %w(162.217.144.93 199.180.253.113 199.167.195.129 199.167.192.158)
+  proxies = %w(162.217.144.93 199.180.253.113 199.167.195.129) + [nil]
 
   Player.all.in_groups_of(4).each do |group|
     futures = group.compact.each_with_index.map do |player, proxy|
       url = "http://sports.yahoo.com/nba/players/#{player.id}/gamelog/"
-      puts "#{player.name} -- GET to #{url} via #{proxies[proxy]}"
+      puts "#{player.name} -- GET to #{url} via #{proxies[proxy] || 'self'}"
       [player, fetcher.future.fetch(url, proxies[proxy])]
     end
     futures.each do |player, future|

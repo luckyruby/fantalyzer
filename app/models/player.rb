@@ -48,10 +48,16 @@ class Player < ActiveRecord::Base
       parsed_data.values.each do |v|
         next if v[12] == "OUT"
         name = v[1]
+        status = case v[12]
+        when "OUT" then 'out'
+        when "GTD" then 'gtd'
+        else
+          'active'
+        end
         if player = Player.where("UPPER(name) = ?", name.upcase).first
           salary = v[5].to_i
           cost_per_point = (player.mean && player.mean > 0) ? salary / player.mean : nil
-          user.salaries.create!(player_id: player.id, position: v[0], salary: v[5], cost_per_point: cost_per_point)
+          user.salaries.create!(player_id: player.id, position: v[0], salary: v[5], cost_per_point: cost_per_point, status: status)
         end
       end
     end

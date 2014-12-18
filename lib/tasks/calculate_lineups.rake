@@ -11,14 +11,17 @@ task calculate_lineups: :environment do
   end
 
   user = User.where(email: 'klin@luckyruby.com').first
-  salaries = user.salaries.group_by(&:position)
+  salaries = user.salaries.active.group_by(&:position)
   combos = {}
   combos_by_salary = {}
   salaries.each do |k,v|
     num = (k == 'C' ? 1 : 2)
-    combos[k] = v.combination(num).map {|p| p.map(&:salary).sum}.uniq.sort.reverse
-    combos_by_salary[k] = v.combination(num).map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.last_5 || 0}.sum.to_f]}.group_by {|i| i[1]}
+    combinations = v.combination(num)
+    combos[k] = combinations.map {|p| p.map(&:salary).sum}.uniq.sort.reverse
+    combos_by_salary[k] = combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.last_5 || 0}.sum.to_f]}.group_by {|i| i[1]}
   end
+
+  #find highest scoring representative for each salary
   combos_by_salary.each do |position,salaries|
     salaries.each do |salary,players|
       combos_by_salary[position][salary] = players.sort{|a,b| a[2] <=> b[2]}.last
@@ -44,7 +47,7 @@ task calculate_lineups: :environment do
               players[p] = salary[0].join(", ")
               salary[2]
             end
-            next if points.sum < 290
+            next if points.sum < 270
             lineup = {
               pg: players['PG'],
               sg: players['SG'],
@@ -63,8 +66,8 @@ task calculate_lineups: :environment do
   lineups.sort! {|a,b| a[:points] <=> b[:points]}
   puts lineups.length
   puts "\n\n\n"
-  puts "TOP 50 LINEUPS"
-  puts lineups.last(50).reverse
+  puts "TOP 100 LINEUPS"
+  puts lineups.last(100).reverse
 
   duration = Time.now - start
   puts "Duration: #{duration}"
