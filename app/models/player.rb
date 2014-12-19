@@ -60,8 +60,9 @@ class Player < ActiveRecord::Base
         status = case v[12]
         when "OUT" then 'out'
         when "GTD" then 'gtd'
+        when "" then 'active'
         else
-          'active'
+          'unknown'
         end
         if player = Player.where("UPPER(name) = ?", name.upcase).first
           salary = v[5].to_i
