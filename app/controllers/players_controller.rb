@@ -2,10 +2,20 @@ class PlayersController < ApplicationController
   before_action :authenticate_user!, except: [:games]
 
   def index
-    @player_select = 'active'
-    @search = PlayerSearch.new
-    @search.user_id = current_user.id
-    @players = @search.results
+    respond_to do |format|
+      format.html {
+        @player_select = 'active'
+        @search = PlayerSearch.new
+        @search.user_id = current_user.id
+        @players = @search.results
+        @games = Game.where(player_id: @players.map(&:id)).order("game_date").group_by(&:player_id)
+      }
+      format.json {
+        @search = PlayerSearch.new
+        @search.user_id = current_user.id
+        @players = @search.results
+      }
+    end
   end
 
   def games
@@ -25,5 +35,4 @@ class PlayersController < ApplicationController
     flash[:error] = "Processing Error. #{e.message}"
     redirect_to salaries_players_path
   end
-
 end

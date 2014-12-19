@@ -17,6 +17,7 @@
         %th &nbsp;
     %tbody
       - @players.each do |p|
+        - game_data = @games[p.id].map(&:fanduel).join(",")
         %tr{class: 'clickable', data: { player: p.id }}
           %td
             %span{style: 'padding-right: 10px;'}= p.name
@@ -37,8 +38,8 @@
           %td= number_to_currency(p.cost_per_point)
           %td= p.games_played
           %td
-            %span.line= p.fantasy_points
+            %span.line= game_data
           %td
-            %span.box= p.fantasy_points
+            %span.box= game_data
 - else
   .no_results No Players Found
