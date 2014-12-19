@@ -2,18 +2,10 @@ class PlayersController < ApplicationController
   before_action :authenticate_user!, except: [:games]
 
   def index
-    respond_to do |format|
-      format.html {
-        @player_select = 'active'
-        @search = PlayerSearch.new
-        }
-      format.js {
-        @search = PlayerSearch.new(params[:search])
-        @search.user_id = current_user.id
-        @players = @search.results
-        render template: 'players/update_list'
-      }
-    end
+    @player_select = 'active'
+    @search = PlayerSearch.new
+    @search.user_id = current_user.id
+    @players = @search.results
   end
 
   def games
