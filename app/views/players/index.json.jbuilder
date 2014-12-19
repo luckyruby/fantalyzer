@@ -1,4 +1,5 @@
 json.players @players do |p|
+  json.id p.id
   json.name p.name
   json.position p.position
   json.salary p.salary.salary
