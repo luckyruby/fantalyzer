@@ -10,4 +10,5 @@ json.players @players do |p|
   json.confidence_interval p.confidence_interval
   json.cost_per_point p.cost_per_point
   json.games_played p.games_played
+  json.status p.status
 end
