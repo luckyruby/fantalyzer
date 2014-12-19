@@ -32,6 +32,9 @@ ready = ->
     theme: 'bootstrap'
     headerTemplate: '{content} {icon}'
     widgets: ["uitheme", "filter", "resizable"]
+    widgetOptions:
+      resizable: true
+      resizable_widths: ['250px', '40px']
     headers:
       1:
         sorter: false

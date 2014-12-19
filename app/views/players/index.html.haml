@@ -5,7 +5,7 @@
     %thead
       %tr
         %th Name
-        %th Position
+        %th.resizable-false Position
         %th Mean FP
         %th CV
         %th Last 5
@@ -19,7 +19,7 @@
       - @players.each do |p|
         %tr{class: 'clickable', data: { player: p.id }}
           %td
-            = p.name
+            %span{style: 'padding-right: 10px;'}= p.name
             - if p.status == 'out'
               .label.label-danger OUT
             - if p.status == 'gtd'
