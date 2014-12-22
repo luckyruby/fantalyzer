@@ -24,6 +24,11 @@ class Player < ActiveRecord::Base
     games.order("game_date").map(&:fanduel).join(",")
   end
 
+  def yesterday_points
+    game = games.where(game_date: Date.today.prev_day).first
+    game ? game.fanduel : 0
+  end
+
   def projected
     (last_5 || 0) * Math.sqrt(last_7_max || 0)
   end
