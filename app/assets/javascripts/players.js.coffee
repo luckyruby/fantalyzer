@@ -34,16 +34,14 @@ ready = ->
     widgets: ["uitheme", "filter", "resizable"]
     widgetOptions:
       resizable: true
-      resizable_widths: ['250px', '40px']
+      resizable_widths: ['250px', '80px', '80px']
     headers:
-      1:
-        sorter: false
-      2:
+      3:
         sorter: "mean_fp"
-      9:
+      10:
         sorter: false
         filter: false
-      10:
+      11:
         sorter: false
         filter: false
 $(document).ready(ready)

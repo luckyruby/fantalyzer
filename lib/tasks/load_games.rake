@@ -30,9 +30,9 @@ task :load_games, [:source] => :environment do |t,args|
       values << [g["player_id"], g["game_date"], g["opponent"], g["score"], g["minutes"], g["field_goals_made"], g["field_goals_attempted"], g["field_goal_percentage"], g["three_points_made"], g["three_points_attempted"], g["three_point_percentage"], g["free_throws_made"], g["free_throws_attempted"], g["free_throw_percentage"], g["offensive_rebounds"], g["defensive_rebounds"], g["rebounds"], g["assists"], g["turnovers"], g["steals"], g["blocks"], g["personal_fouls"], g["points"], g["fanduel"]]
     end
   else #grab data off yahoo
-    proxies = %w(162.217.144.93 199.180.253.113 199.167.192.158) + [nil]
+    proxies = %w(162.217.144.93 199.180.253.113 199.167.195.129 199.167.192.158) + [nil]
 
-    Player.all.in_groups_of(4).each do |group|
+    Player.all.in_groups_of(5).each do |group|
       futures = group.compact.each_with_index.map do |player, proxy|
         url = "http://sports.yahoo.com/nba/players/#{player.id}/gamelog/"
         puts "#{player.name} -- GET to #{url} via #{proxies[proxy] || 'self'}"
@@ -128,7 +128,7 @@ task :load_games, [:source] => :environment do |t,args|
   end
   ActiveRecord::Base.connection.execute("TRUNCATE games restart identity")
   Game.import columns, values, validate: false
-  Player.update_statistics
+  #Player.update_statistics
   duration = Time.now - start
   puts "Duration: #{duration}"
 end

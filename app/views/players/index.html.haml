@@ -6,6 +6,7 @@
       %tr
         %th Name
         %th.resizable-false Position
+        %th.resizable-false Team
         %th Mean FP
         %th CV
         %th Last 5
@@ -26,6 +27,7 @@
             - if p.status == 'gtd'
               .label.label-warning GTD
           %td= p.position
+          %td= p.team.abbreviation.upcase
           %td
             - if p.mean.present?
               = p.mean

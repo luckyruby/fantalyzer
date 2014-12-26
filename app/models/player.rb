@@ -1,5 +1,6 @@
 class Player < ActiveRecord::Base
   self.primary_key = 'id'
+  belongs_to :team
   has_many :games, dependent: :destroy, autosave: true
   has_many :player_positions, dependent: :destroy, autosave: true
   has_many :positions, through: :player_positions
@@ -24,8 +25,8 @@ class Player < ActiveRecord::Base
     games.order("game_date").map(&:fanduel).join(",")
   end
 
-  def yesterday_points
-    game = games.where(game_date: Date.today.prev_day).first
+  def points(days_ago)
+    game = games.where(game_date: Date.today - days_ago).first
     game ? game.fanduel : 0
   end
 
@@ -39,7 +40,7 @@ class Player < ActiveRecord::Base
 
   class << self
     def update_statistics
-      aggregates = Game.select("player_id, avg(fanduel), stddev(fanduel), count(*) games_played, stddev(fanduel)/avg(fanduel) cv, stddev(fanduel)/(|/ count(*))*1.96 confidence_interval, max(fanduel) as max_fanduel").group("player_id").group_by(&:player_id)
+      aggregates = Game.select("player_id, avg(fanduel), stddev(fanduel), count(*) games_played, case when avg(fanduel) = 0 then NULL else (stddev(fanduel)/avg(fanduel)) end as cv, case when count(*) = 0 then NULL else (stddev(fanduel)/(|/ count(*))*1.96) end as confidence_interval, max(fanduel) as max_fanduel").group("player_id").group_by(&:player_id)
 
       Player.all.each do |player|
         stats = aggregates[player.id]
