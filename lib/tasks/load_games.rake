@@ -128,7 +128,7 @@ task :load_games, [:source] => :environment do |t,args|
   end
   ActiveRecord::Base.connection.execute("TRUNCATE games restart identity")
   Game.import columns, values, validate: false
-  #Player.update_statistics
+  Player.update_statistics
   duration = Time.now - start
   puts "Duration: #{duration}"
 end
