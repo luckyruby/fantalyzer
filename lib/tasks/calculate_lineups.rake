@@ -1,5 +1,5 @@
 desc "Calculate Lineups"
-task :calculate_lineups, [:max_points, :top_n, :optimize, :days_ago] => :environment do |t,args|
+task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :environment do |t,args|
   start = Time.now
   puts "Start: #{start}"
 
@@ -7,11 +7,17 @@ task :calculate_lineups, [:max_points, :top_n, :optimize, :days_ago] => :environ
   salaries = user.salaries.active.group_by(&:position)
   combos = {}
   combos_by_salary = {}
+  actual_date = Date.parse(args.actual_date) rescue nil
+
   salaries.each do |k,v|
     num = (k == 'C' ? 1 : 2)
     combinations = v.combination(num)
     combos[k] = combinations.map {|p| p.map(&:salary).sum}.uniq.sort.reverse
-    combos_by_salary[k] = combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| (args.days_ago ? i.player.send(args.optimize, args.days_ago.to_i) : i.player.send(args.optimize)) || 0}.sum.to_f]}.group_by {|i| i[1]}
+    combos_by_salary[k] = if actual_date
+      combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.send(args.optimize_by, actual_date) || 0}.sum.to_f, i.player.actual(actual_date)]}.group_by {|i| i[1]}
+    else
+      combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.send(args.optimize_by) || 0}.sum.to_f]}.group_by {|i| i[1]}
+    end
   end
 
   #find highest scoring representative for each salary
@@ -38,10 +44,13 @@ task :calculate_lineups, [:max_points, :top_n, :optimize, :days_ago] => :environ
             next if sum > 60000 || sum < 59000
             salaries = [pg, sg, sf, pf, c]
             players = {}
-            points = positions.each_with_index.map do |p,i|
+            points = []
+            actual = []
+            positions.each_with_index do |p,i|
               salary = combos_by_salary[p][salaries[i]]
               players[p] = salary[0].join(", ")
-              salary[2]
+              points << salary[2]
+              actual << salary[3]
             end
             next if points.sum < max_points
             lineup = {
@@ -50,7 +59,8 @@ task :calculate_lineups, [:max_points, :top_n, :optimize, :days_ago] => :environ
               sf: players['SF'],
               pf: players['PF'],
               c: players['C'],
-              points: points.sum.round(2)
+              points: points.sum.round(2),
+              actual: actual.sum.round(2)
             }
             puts lineup
             lineups << lineup

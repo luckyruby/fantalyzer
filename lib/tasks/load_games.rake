@@ -14,7 +14,7 @@ class HttpFetcher
 end
 
 desc "Loads Game Data"
-task :load_games, [:source] => :environment do |t,args|
+task :load_games, [:source, :until_date] => :environment do |t,args|
   start = Time.now
   puts "Start: #{start}"
   today = start.to_date
@@ -24,7 +24,9 @@ task :load_games, [:source] => :environment do |t,args|
 
   fetcher = HttpFetcher.new
   if args.source == 'luckyruby'
-    response = fetcher.future.fetch('http://fantasy.luckyruby.com/players/games')
+    url = "http://fantasy.luckyruby.com/players/games"
+    url += "?until=#{args.until_date}" if args.until_date
+    response = fetcher.future.fetch(url)
     games = JSON.parse(response.value.to_s)
     games.each do |g|
       values << [g["player_id"], g["game_date"], g["opponent"], g["score"], g["minutes"], g["field_goals_made"], g["field_goals_attempted"], g["field_goal_percentage"], g["three_points_made"], g["three_points_attempted"], g["three_point_percentage"], g["free_throws_made"], g["free_throws_attempted"], g["free_throw_percentage"], g["offensive_rebounds"], g["defensive_rebounds"], g["rebounds"], g["assists"], g["turnovers"], g["steals"], g["blocks"], g["personal_fouls"], g["points"], g["fanduel"]]

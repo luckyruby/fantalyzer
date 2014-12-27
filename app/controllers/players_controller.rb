@@ -19,7 +19,8 @@ class PlayersController < ApplicationController
   end
 
   def games
-    @games = Game.all
+    until_date = Date.parse(params[:until]) rescue nil
+    @games = until_date ? Game.where("game_date <= ?", until_date) : Game.all
     render json: @games
   end
 
