@@ -38,10 +38,10 @@ ready = ->
     headers:
       3:
         sorter: "mean_fp"
-      10:
+      11:
         sorter: false
         filter: false
-      11:
+      12:
         sorter: false
         filter: false
 $(document).ready(ready)

@@ -125,7 +125,6 @@ task :load_games, [:source, :until_date] => :environment do |t,args|
           values << [player.id, i[:game_date], i[:opponent], i[:score], i[:minutes], i[:field_goals_made], i[:field_goals_attempted], i[:field_goal_percentage], i[:three_points_made], i[:three_points_attempted], i[:three_point_percentage], i[:free_throws_made], i[:free_throws_attempted], i[:free_throw_percentage], i[:offensive_rebounds], i[:defensive_rebounds], i[:rebounds], i[:assists], i[:turnovers], i[:steals], i[:blocks], i[:personal_fouls], i[:points], i[:fanduel]]
         end
       end
-      sleep 1
     end
   end
   ActiveRecord::Base.connection.execute("TRUNCATE games restart identity")

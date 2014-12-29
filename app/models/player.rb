@@ -42,6 +42,10 @@ class Player < ActiveRecord::Base
     games.order("game_date DESC").limit(7).map(&:fanduel).max
   end
 
+  def last_5_cost_per_point
+    salary.salary / (last_5 || 0)
+  end
+
   class << self
     def update_statistics(date=Date.today)
       aggregates = Game.select("player_id, avg(fanduel), stddev(fanduel), count(*) games_played, case when avg(fanduel) = 0 then NULL else (stddev(fanduel)/avg(fanduel)) end as cv, case when count(*) = 0 then NULL else (stddev(fanduel)/(|/ count(*))*1.96) end as confidence_interval, max(fanduel) as max_fanduel").where("game_date <= ?", date).group("player_id").group_by(&:player_id)

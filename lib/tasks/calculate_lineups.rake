@@ -14,7 +14,7 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
     combinations = v.combination(num)
     combos[k] = combinations.map {|p| p.map(&:salary).sum}.uniq.sort.reverse
     combos_by_salary[k] = if actual_date
-      combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.send(args.optimize_by, actual_date) || 0}.sum.to_f, i.player.actual(actual_date)]}.group_by {|i| i[1]}
+      combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.send(args.optimize_by, actual_date) || 0}.sum.to_f, p.map {|i| i.player.actual(actual_date) || 0}.sum.to_f]}.group_by {|i| i[1]}
     else
       combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.send(args.optimize_by) || 0}.sum.to_f]}.group_by {|i| i[1]}
     end
@@ -45,12 +45,12 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
             salaries = [pg, sg, sf, pf, c]
             players = {}
             points = []
-            actual = []
+            #actual = []
             positions.each_with_index do |p,i|
               salary = combos_by_salary[p][salaries[i]]
               players[p] = salary[0].join(", ")
               points << salary[2]
-              actual << salary[3]
+              #actual << salary[3]
             end
             next if points.sum < max_points
             lineup = {
@@ -59,8 +59,7 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
               sf: players['SF'],
               pf: players['PF'],
               c: players['C'],
-              points: points.sum.round(2),
-              actual: actual.sum.round(2)
+              points: points.sum.round(2)
             }
             puts lineup
             lineups << lineup

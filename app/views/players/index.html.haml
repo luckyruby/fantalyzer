@@ -5,14 +5,15 @@
     %thead
       %tr
         %th Name
-        %th.resizable-false Position
+        %th.resizable-false Pos
         %th.resizable-false Team
-        %th Mean FP
+        %th Mean
         %th CV
         %th Last 5
-        %th Max FP
+        %th Max
         %th Salary
-        %th $/FP
+        %th $/Mean
+        %th $/Last 5
         %th Games
         %th &nbsp;
         %th &nbsp;
@@ -38,6 +39,7 @@
           %td= p.max_fanduel
           %td= number_to_currency(p.salary.salary)
           %td= number_to_currency(p.cost_per_point)
+          %td= number_to_currency(p.last_5_cost_per_point)
           %td= p.games_played
           %td
             %span.line= game_data
