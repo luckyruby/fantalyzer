@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   get "profile/edit"
   patch "profile/update"
+  get "lineup/calculator"
 
   root 'players#index'
 end

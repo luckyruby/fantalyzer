@@ -16,6 +16,7 @@
             %ul.nav.navbar-nav
               %li{class: @player_select}= link_to 'Players', players_path
               %li{class: @salary_select}= link_to 'Load Salaries', salaries_players_path
+              %li{class: @lineup_select}= link_to 'Lineup Calculator', lineup_calculator_path
             %ul.nav.navbar-nav.navbar-right
               %li.dropdown
                 = link_to user_icon, nil, class: 'dropdown-toggle', data: { toggle: 'dropdown'}

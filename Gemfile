@@ -25,6 +25,7 @@ gem 'activerecord-import'
 gem 'highcharts-rails'
 gem 'devise'
 gem 'jquery-tablesorter'
+gem 'select2-rails'
 
 group :development do
   gem 'spring'

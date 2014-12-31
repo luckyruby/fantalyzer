@@ -1,0 +1,7 @@
+= form_for @calculator, as: 'calculator', url: lineup_calculator_path, remote: true, method: :get, html: { class: 'form-inline' } do |f|
+  .row
+    .form-group.col-lg-8
+      %label Players
+      .input-group
+        = f.collection_select :players, @players, :id, :name, {}, {multiple: true, class: 'form-control'}
+      = f.submit 'Calculate'

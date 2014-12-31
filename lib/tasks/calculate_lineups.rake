@@ -29,11 +29,12 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
 
   positions = %w(PG SG SF PF C)
 
-  lineups = []
+  top_lineups = []
 
   max_points = args.max_points.to_f
 
   combos['C'].each do |c|
+    lineups = []
     combos['SG'].each do |sg|
       combos['SF'].each do |sf|
         next if c + sg + sf > 46000
@@ -61,19 +62,17 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
               c: players['C'],
               points: points.sum.round(2)
             }
-            puts lineup
             lineups << lineup
           end
         end
       end
     end
+    lineups.sort! {|a,b| a[:points] <=> b[:points]}
+    top_n = (args.top_n || 10).to_i
+    top_lineups << lineups.last(top_n).reverse
   end
-  lineups.sort! {|a,b| a[:points] <=> b[:points]}
-  top_n = (args.top_n || 100).to_i
-  puts lineups.length
-  puts "\n\n\n"
-  puts "TOP #{top_n} LINEUPS"
-  puts lineups.last(top_n).reverse
+  puts "\n\n\nTOP LINEUPS"
+  puts top_lineups
 
   duration = Time.now - start
   puts "Duration: #{duration}"
