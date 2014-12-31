@@ -4,6 +4,7 @@ class LineupController < ApplicationController
   def calculator
     respond_to do |format|
       format.html {
+        @lineup_select = 'active'
         @calculator = LineupCalculator.new
         @players = Player.joins(:salary).where("salaries.user_id = ?", current_user.id).order(:name)
       }
