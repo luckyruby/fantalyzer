@@ -8,7 +8,7 @@ class PlayersController < ApplicationController
         @search = PlayerSearch.new
         @search.user_id = current_user.id
         @players = @search.results
-        @games = Game.where(player_id: @players.map(&:id)).order("game_date").group_by(&:player_id)
+        @games = Game.where(player_id: @players.map(&:id)).order("game_date DESC").group_by(&:player_id)
       }
       format.json {
         @search = PlayerSearch.new

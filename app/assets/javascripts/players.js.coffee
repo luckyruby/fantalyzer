@@ -7,7 +7,7 @@ ready = ->
   $('.clickable').click (e) ->
     e.preventDefault
     player_id = $(this).data('player')
-    $.get "players/#{player_id}/games",{},null,'script'
+    $("#games_#{player_id}").modal('show')
 
   $.tablesorter.addParser
     id: "mean_fp"
