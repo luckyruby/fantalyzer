@@ -4,14 +4,6 @@ ready = ->
     width: '100px'
     height: '30px'
 
-  $('.discrete').sparkline 'html',
-    type: 'discrete'
-
-  $('.box').sparkline 'html',
-    type: 'box'
-    width: '100px'
-    height: '30px'
-
   $('.clickable').click (e) ->
     e.preventDefault
     player_id = $(this).data('player')
@@ -39,9 +31,6 @@ ready = ->
       3:
         sorter: "mean_fp"
       11:
-        sorter: false
-        filter: false
-      12:
         sorter: false
         filter: false
 $(document).ready(ready)

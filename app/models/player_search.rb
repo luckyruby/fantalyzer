@@ -17,7 +17,7 @@ class PlayerSearch
   end
 
   def results
-    players = Player.eager_load(:games, :salary, :statistic).where("statistics.games_played > 0 and salaries.salary > 0 and salaries.user_id = ?", user_id).order("mean desc nulls last, salaries.salary desc")
+    players = Player.eager_load(:games, :salary, :statistic, :team).where("statistics.games_played > 0 and salaries.salary > 0 and salaries.user_id = ?", user_id).order("mean desc nulls last, salaries.salary desc")
     players = players.where("players.name ilike ?", "%#{name}%") if name.present?
     players = players.where(salaries: {position: position}) if position.present?
     players

@@ -6,7 +6,7 @@ class LineupController < ApplicationController
       format.html {
         @lineup_select = 'active'
         @calculator = LineupCalculator.new
-        @players = Player.joins(:salary).where("salaries.user_id = ?", current_user.id).order(:name)
+        @players = Player.order(:name)
       }
       format.js {
         @calculator = LineupCalculator.new(params[:calculator])

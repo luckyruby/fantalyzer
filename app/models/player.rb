@@ -7,7 +7,7 @@ class Player < ActiveRecord::Base
   has_one :salary, dependent: :destroy, autosave: true
   has_one :statistic, dependent: :destroy, autosave: true
 
-  delegate :mean, :std_dev, :cv, :max_fanduel, :confidence_interval, :games_played, :last_5, to: :statistic, allow_nil: true
+  delegate :mean, :std_dev, :cv, :max_fanduel, :confidence_interval, :games_played, :last_5, :sparkline, to: :statistic, allow_nil: true
 
   delegate :position, :status, :cost_per_point, to: :salary, allow_nil: true
 
@@ -61,6 +61,7 @@ class Player < ActiveRecord::Base
           statistic.confidence_interval = stats[0].confidence_interval
           statistic.max_fanduel = stats[0].max_fanduel
           statistic.last_5 = player.games.order("game_date DESC").limit(5).map(&:fanduel).sum / 5.0
+          statistic.sparkline = player.games.order("game_date").map(&:fanduel).join(",")
           statistic.save
         end
       end
