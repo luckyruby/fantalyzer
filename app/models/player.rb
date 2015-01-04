@@ -4,7 +4,7 @@ class Player < ActiveRecord::Base
   has_many :games, dependent: :destroy, autosave: true
   has_many :player_positions, dependent: :destroy, autosave: true
   has_many :positions, through: :player_positions
-  has_one :salary, dependent: :destroy, autosave: true
+  has_one :salary, -> { where(user_id: User.current.id)}, dependent: :destroy, autosave: true
   has_one :statistic, dependent: :destroy, autosave: true
 
   delegate :mean, :std_dev, :cv, :max_fanduel, :confidence_interval, :games_played, :last_5, :sparkline, to: :statistic, allow_nil: true

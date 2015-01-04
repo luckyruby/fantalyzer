@@ -17,10 +17,11 @@ class LineupCalculator
   end
 
   def results
-    stats = Player.eager_load(:statistic).where(id: players)
+    stats = Player.eager_load(:statistic, :salary).where(id: players.reject(&:blank?))
+    salary = stats.map{|i| i.salary.salary}.sum
     mean = stats.map(&:mean).sum
     last_5 = stats.map(&:last_5).sum
-    "mean: #{mean}, last_5: #{last_5}"
+    "salary: #{salary}, mean: #{mean}, last_5: #{last_5}"
   end
 
 end
