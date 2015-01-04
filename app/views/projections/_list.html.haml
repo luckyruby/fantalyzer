@@ -1,0 +1,23 @@
+- if @projections.present?
+  %table{class: "table table-bordered table-striped table-hover"}
+    %thead
+      %tr
+        %th Name
+        %th Mean
+        %th CV
+        %th Last 5
+        %th Projected
+        %th &nbsp
+        %th &nbsp
+    %tbody
+      - @projections.each do |p|
+        %tr
+          %td= p.name
+          %td= p.mean
+          %td= p.cv
+          %td= p.last_5
+          %td= p.points
+          %td= link_to pencil_icon, edit_projection_path(p), remote: true
+          %td= link_to trash_icon, projection_path(p), remote: true, method: :delete, data: {confirm: 'Are you sure?'}
+- else
+  .no_results No Projections Found

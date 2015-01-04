@@ -47,11 +47,11 @@
         %th.resizable-false Team
         %th Mean
         %th CV
-        %th Last 5
+        %th Proj
         %th Max
         %th Salary
         %th $/Mean
-        %th $/Last 5
+        %th $/Proj
         %th Games
         %th &nbsp;
     %tbody
@@ -71,11 +71,11 @@
               &#177;
               = p.confidence_interval
           %td= p.cv
-          %td= p.last_5
+          %td= p.projected
           %td= p.max_fanduel
           %td= number_to_currency(p.salary.salary)
           %td= number_to_currency(p.cost_per_point)
-          %td= number_to_currency(p.last_5_cost_per_point)
+          %td= number_to_currency(p.proj_cost_per_point)
           %td= p.games_played
           %td
             %span.line= p.sparkline

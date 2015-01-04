@@ -4,6 +4,7 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
   puts "Start: #{start}"
 
   user = User.where(email: 'klin@luckyruby.com').first
+  User.current = user
   salaries = user.salaries.active.group_by(&:position)
   combos = {}
   combos_by_salary = {}

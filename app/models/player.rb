@@ -6,6 +6,7 @@ class Player < ActiveRecord::Base
   has_many :positions, through: :player_positions
   has_one :salary, -> { where(user_id: User.current.id)}, dependent: :destroy, autosave: true
   has_one :statistic, dependent: :destroy, autosave: true
+  has_one :projection, -> { where(user_id: User.current.id)}, dependent: :destroy, autosave: true
 
   delegate :mean, :std_dev, :cv, :max_fanduel, :confidence_interval, :games_played, :last_5, :sparkline, to: :statistic, allow_nil: true
 
@@ -31,15 +32,15 @@ class Player < ActiveRecord::Base
   end
 
   def projected
-    (last_5 || 0) * Math.sqrt(last_7_max || 0)
+    projection.try(:points) || last_5 || 0
   end
 
   def last_7_max
     games.order("game_date DESC").limit(7).map(&:fanduel).max
   end
 
-  def last_5_cost_per_point
-    salary.salary / (last_5 || 0)
+  def proj_cost_per_point
+    salary.salary / projected
   end
 
   class << self

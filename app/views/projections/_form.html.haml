@@ -1,0 +1,16 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      %button.close{type: 'button', 'data-dismiss' => 'modal', 'aria-hidden' => 'true'} &times;
+      %h4.modal-title Projection
+    = form_for @projection, html: { autocomplete: 'off', class: 'form-horizontal'}, remote: true do |f|
+      .modal-body
+        = render 'shared/errors', object: @projection
+        .form-group
+          %label.control-label.col-sm-3 Name
+          .col-sm-9= f.collection_select :player_id, @players, :id, :name, { include_blank: 'Select Player'}, {class: 'form-control'}
+        .form-group
+          %label.control-label.col-sm-3 Points
+          .col-sm-9= f.text_field :points, class: 'form-control'
+      .modal-footer
+        = f.submit 'Save', class: 'btn btn-primary'

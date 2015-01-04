@@ -1,0 +1,5 @@
+%h3 Projections
+= link_to "New Projection", new_projection_path, remote: true, class: 'btn btn-primary'
+%hr
+#projection_list= render 'list'
+#projection_form.modal.fade

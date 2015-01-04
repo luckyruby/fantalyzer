@@ -3,10 +3,16 @@ Rails.application.routes.draw do
   resources :players do
     collection do
       get 'games' => 'players#games'
-      get 'salaries' => 'players#salaries'
-      post 'load_salaries' => 'players#load_salaries'
+      get 'projections' => 'players#projections'
     end
   end
+  resources :salaries do
+    collection do
+      post 'load' => 'salaries#load'
+    end
+  end
+
+  resources :projections
 
   get "profile/edit"
   patch "profile/update"

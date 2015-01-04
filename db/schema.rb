@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150103194715) do
+ActiveRecord::Schema.define(version: 20150104100522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,16 @@ ActiveRecord::Schema.define(version: 20150103194715) do
   add_index "players", ["id"], name: "index_players_on_id", unique: true, using: :btree
   add_index "players", ["last_name"], name: "index_players_on_last_name", using: :btree
   add_index "players", ["name"], name: "index_players_on_name", unique: true, using: :btree
+
+  create_table "projections", force: true do |t|
+    t.integer  "user_id",                            null: false
+    t.integer  "player_id",                          null: false
+    t.decimal  "points",     precision: 4, scale: 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "projections", ["user_id", "player_id"], name: "index_projections_on_user_id_and_player_id", unique: true, using: :btree
 
   create_table "salaries", force: true do |t|
     t.integer  "user_id",                                                   null: false
