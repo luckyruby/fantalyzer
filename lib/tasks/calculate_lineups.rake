@@ -72,7 +72,9 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
     top_lineups << lineups.last(top_n).reverse
   end
   puts "\n\n\nTOP LINEUPS"
-  puts top_lineups
+  top_lineups.each do |t|
+    puts "#{t.join("\n")}\n\n"
+  end
 
   duration = Time.now - start
   puts "Duration: #{duration}"

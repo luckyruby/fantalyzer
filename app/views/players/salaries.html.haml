@@ -1,5 +1,5 @@
-%h3 Load Salary JSON
+%h3 Salary Data
 = form_tag load_salaries_players_path do
   .form-group
-    = text_area_tag :data, nil, class: 'form-control', rows: 20
+    = text_area_tag :data, nil, class: 'form-control', rows: 20, placeholder: 'Paste FanDuel JSON here'
   = submit_tag 'Load', class: 'btn btn-primary'

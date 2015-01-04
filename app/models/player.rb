@@ -17,10 +17,6 @@ class Player < ActiveRecord::Base
 
   POSITIONS = %w(PG SG SF PF C)
 
-  def name
-    "#{first_name} #{last_name}"
-  end
-
   def fantasy_points
     games.order("game_date").map(&:fanduel).join(",")
   end
