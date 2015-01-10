@@ -18,10 +18,12 @@ class LineupCalculator
 
   def results
     stats = Player.eager_load(:statistic, :salary).where(id: players.reject(&:blank?))
-    salary = stats.map{|i| i.salary.salary}.sum
+    salary = stats.map{|i| i.salary.try(:salary) || 0}.sum
     mean = stats.map(&:mean).sum
     last_5 = stats.map(&:last_5).sum
-    "salary: #{salary}, mean: #{mean}, last_5: #{last_5}"
+    proj = stats.map(&:projected).sum
+    cv = (stats.map(&:cv).sum / stats.length).round(3)
+    "salary: #{salary}, mean: #{mean}, last_5: #{last_5}, proj: #{proj}, cv: #{cv}"
   end
 
 end

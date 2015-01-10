@@ -15,6 +15,12 @@ task load_players: :environment do
       begin
         td_a = row.css('td a')
         name = td_a.first.text
+        name = case name
+        when 'Bradley Beal' then 'Brad Beal'
+        when 'Lou Williams' then 'Louis Williams'
+        else
+          name
+        end
         split_name = name.split(" ")
         team = teams[td_a.last['href'].split("/").last.downcase].first
         id = td_a.first['href'].split("/").last.to_i

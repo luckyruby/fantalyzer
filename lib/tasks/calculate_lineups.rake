@@ -5,7 +5,7 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
 
   user = User.where(email: 'klin@luckyruby.com').first
   User.current = user
-  salaries = user.salaries.active.group_by(&:position)
+  salaries = user.salaries.active.productive.group_by(&:position)
   combos = {}
   combos_by_salary = {}
   actual_date = Date.parse(args.actual_date) rescue nil
@@ -17,7 +17,7 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
     combos_by_salary[k] = if actual_date
       combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.send(args.optimize_by, actual_date) || 0}.sum.to_f, p.map {|i| i.player.actual(actual_date) || 0}.sum.to_f]}.group_by {|i| i[1]}
     else
-      combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.send(args.optimize_by) || 0}.sum.to_f]}.group_by {|i| i[1]}
+      combinations.map {|p| [p.map {|i| i.player.name}, p.map(&:salary).sum, p.map {|i| i.player.send(args.optimize_by) || 0}.sum.to_f, p.map{|i| i.player.cv}.sum]}.group_by {|i| i[1]}
     end
   end
 
@@ -47,11 +47,13 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
             salaries = [pg, sg, sf, pf, c]
             players = {}
             points = []
+            cvs = []
             #actual = []
             positions.each_with_index do |p,i|
               salary = combos_by_salary[p][salaries[i]]
               players[p] = salary[0].join(", ")
               points << salary[2]
+              cvs << salary[3]
               #actual << salary[3]
             end
             next if points.sum < max_points
@@ -61,7 +63,8 @@ task :calculate_lineups, [:max_points, :top_n, :optimize_by, :actual_date] => :e
               sf: players['SF'],
               pf: players['PF'],
               c: players['C'],
-              points: points.sum.round(2)
+              points: points.sum.round(2),
+              cv: "%.2f" % (cvs.sum/9.0).round(3)
             }
             lineups << lineup
           end

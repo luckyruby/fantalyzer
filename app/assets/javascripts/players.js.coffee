@@ -30,7 +30,7 @@ ready = ->
     headers:
       3:
         sorter: "mean_fp"
-      11:
+      9:
         sorter: false
         filter: false
 $(document).ready(ready)
