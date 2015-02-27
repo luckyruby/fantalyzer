@@ -5,6 +5,15 @@ task load_players: :environment do
   start = Time.now
   puts "Start: #{start}"
 
+  name_map = {
+    'Bradley Beal' => 'Brad Beal',
+    'Lou Williams' => 'Louis Williams',
+    'Patty Mills' => 'Patrick Mills',
+    'Phil Pressey' => 'Phil (Flip) Pressey',
+    'Ronald Roberts' => 'Ronald Roberts, Jr.',
+    'Devyn Marble' => 'Roy Devyn Marble'
+  }
+
   ActiveRecord::Base.connection.execute("TRUNCATE players restart identity")
   teams = Team.all.group_by(&:abbreviation)
   %w(PG SG G SF PF F C).each do |position|
@@ -15,12 +24,7 @@ task load_players: :environment do
       begin
         td_a = row.css('td a')
         name = td_a.first.text
-        name = case name
-        when 'Bradley Beal' then 'Brad Beal'
-        when 'Lou Williams' then 'Louis Williams'
-        else
-          name
-        end
+        name = name_map[name] if name_map[name]
         split_name = name.split(" ")
         team = teams[td_a.last['href'].split("/").last.downcase].first
         id = td_a.first['href'].split("/").last.to_i
