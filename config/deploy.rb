@@ -1,6 +1,3 @@
-# config valid only for Capistrano 3.3
-lock '3.3.3'
-
 set :application, 'fantalyzer'
 set :repo_url, "ssh://git@github.com/luckyruby/fantalyzer.git"
 set :branch, "master"
