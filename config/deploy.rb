@@ -1,6 +1,5 @@
 set :application, 'fantalyzer'
 set :repo_url, "ssh://git@github.com/luckyruby/fantalyzer.git"
-set :branch, "master"
 set :deploy_to, "/var/www/fantalyzer"
 set :scm, :git
 set :linked_files, %w{config/database.yml config/secrets.yml config/config.yml}
