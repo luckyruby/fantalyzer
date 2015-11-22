@@ -63,30 +63,6 @@ class Player < ActiveRecord::Base
         end
       end
     end
-
-    def load_salaries(data, user)
-      parsed_data = JSON.parse(data)
-      Salary.delete_all(user_id: user.id)
-      missing_players = []
-      parsed_data.values.each do |v|
-        name = v[1]
-        status = case v[12]
-        when "OUT" then 'out'
-        when "GTD" then 'gtd'
-        when "" then 'active'
-        else
-          'unknown'
-        end
-        if player = Player.where("UPPER(name) = ?", name.upcase).first
-          salary = v[5].to_i
-          cost_per_point = (player.mean && player.mean > 0) ? salary / player.mean : nil
-          user.salaries.create!(player_id: player.id, position: v[0], salary: v[5], cost_per_point: cost_per_point, status: status)
-        else
-          missing_players << name
-        end
-      end
-      puts "MISSING PLAYERS: #{missing_players.join(", ")}" if missing_players.present?
-    end
   end
 
 end

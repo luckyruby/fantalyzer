@@ -6,7 +6,7 @@ class HttpFetcher
 
   def fetch(url, proxy=nil)
     if proxy
-      HTTP.via(proxy, 3128).get(url, socket_class: Celluloid::IO::TCPSocket)
+      HTTP.via(proxy, 6060, CONFIG[:torguard][:username], CONFIG[:torguard][:password]).get(url, socket_class: Celluloid::IO::TCPSocket)
     else
       HTTP.get(url, socket_class: Celluloid::IO::TCPSocket)
     end
@@ -17,6 +17,7 @@ desc "Loads Game Data"
 task :load_games, [:source, :until_date] => :environment do |t,args|
   start = Time.now
   puts "Start: #{start}"
+  puts CONFIG[:torguard][:username]
   today = start.to_date
 
   columns = [:player_id, :game_date, :opponent, :score, :minutes, :field_goals_made, :field_goals_attempted, :field_goal_percentage, :three_points_made, :three_points_attempted, :three_point_percentage, :free_throws_made, :free_throws_attempted, :free_throw_percentage, :offensive_rebounds, :defensive_rebounds, :rebounds, :assists, :turnovers, :steals, :blocks, :personal_fouls, :points, :fanduel]
@@ -32,13 +33,14 @@ task :load_games, [:source, :until_date] => :environment do |t,args|
       values << [g["player_id"], g["game_date"], g["opponent"], g["score"], g["minutes"], g["field_goals_made"], g["field_goals_attempted"], g["field_goal_percentage"], g["three_points_made"], g["three_points_attempted"], g["three_point_percentage"], g["free_throws_made"], g["free_throws_attempted"], g["free_throw_percentage"], g["offensive_rebounds"], g["defensive_rebounds"], g["rebounds"], g["assists"], g["turnovers"], g["steals"], g["blocks"], g["personal_fouls"], g["points"], g["fanduel"]]
     end
   else #grab data off yahoo
-    proxies = %w(162.217.144.93 199.180.253.113) + [nil]
-
-    Player.all.in_groups_of(3).each do |group|
-      futures = group.compact.each_with_index.map do |player, proxy|
+    proxies = ['96.47.226.34','96.47.226.98','96.47.226.130','96.47.226.138','96.44.147.34','96.44.147.122','96.44.146.106']
+    proxy_count = proxies.length
+    Player.all.in_groups_of(proxy_count).each do |group|
+      futures = group.compact.each_with_index.map do |player, index|
+        proxy = proxies[index]
         url = "http://sports.yahoo.com/nba/players/#{player.id}/gamelog/"
-        puts "#{player.name} -- GET to #{url} via #{proxies[proxy] || 'self'}"
-        [player, fetcher.future.fetch(url, proxies[proxy])]
+        puts "#{player.name} -- GET to #{url} via #{proxy}"
+        [player, fetcher.future.fetch(url, proxy)]
       end
       futures.each do |player, future|
         games = {}

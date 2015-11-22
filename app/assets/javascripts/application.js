@@ -19,5 +19,4 @@
 //= require highcharts
 //= require jquery-tablesorter
 //= require select2
-//= require lineups
 //= require_tree .

@@ -6,7 +6,7 @@ class SalariesController < ApplicationController
   end
 
   def load
-    Player.load_salaries(params[:data], current_user)
+    Salary.load(params[:data], current_user)
     redirect_to players_path, notice: 'Successfully loaded salary data'
   rescue => e
     logger.error ([e.message] + e.backtrace).join("\n")

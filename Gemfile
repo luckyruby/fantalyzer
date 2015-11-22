@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.8'
+gem 'rails', '4.2.4'
 gem 'pg'
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
@@ -24,7 +24,7 @@ gem 'celluloid-io'
 gem 'activerecord-import'
 gem 'highcharts-rails'
 gem 'devise'
-gem 'jquery-tablesorter'
+gem 'jquery-tablesorter', '1.13.3'
 gem 'select2-rails'
 
 group :development do
