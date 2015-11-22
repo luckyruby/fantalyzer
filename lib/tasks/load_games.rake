@@ -33,7 +33,7 @@ task :load_games, [:source, :until_date] => :environment do |t,args|
       values << [g["player_id"], g["game_date"], g["opponent"], g["score"], g["minutes"], g["field_goals_made"], g["field_goals_attempted"], g["field_goal_percentage"], g["three_points_made"], g["three_points_attempted"], g["three_point_percentage"], g["free_throws_made"], g["free_throws_attempted"], g["free_throw_percentage"], g["offensive_rebounds"], g["defensive_rebounds"], g["rebounds"], g["assists"], g["turnovers"], g["steals"], g["blocks"], g["personal_fouls"], g["points"], g["fanduel"]]
     end
   else #grab data off yahoo
-    proxies = ['96.47.226.34','96.47.226.98','96.47.226.130','96.47.226.138','96.44.147.34','96.44.147.122','96.44.146.106']
+    proxies = ['184.75.209.130','184.75.208.10','149.3.131.122','88.150.199.82','109.200.12.234','188.227.173.218','195.122.150.129','195.122.150.131','195.122.150.130','178.32.219.18','5.135.153.200','82.103.140.46','62.103.152.163','62.103.152.164']
     proxy_count = proxies.length
     Player.all.in_groups_of(proxy_count).each do |group|
       futures = group.compact.each_with_index.map do |player, index|
